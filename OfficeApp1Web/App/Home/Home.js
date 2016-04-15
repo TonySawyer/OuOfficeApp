@@ -5,10 +5,10 @@
     var userDetails = {
         PI: "E2762956",
         Name: "Ian Brown",
-        };
+    };
 
-    var courses = {
-        Course:  {
+    var courses = [
+        {
             Title: "L192 Beginners French",
             Code: "L192",
             TutorName: "Mrs Tutor",
@@ -22,17 +22,82 @@
                 {Title: "EMA", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764196"}
             ]
         }
-    }
+    ];
+
+    var currentCourseCode = "";
+    var currentTMA = "";
 
     // The initialize function must be run each time a new page is loaded
     Office.initialize = function (reason) {
         $(document).ready(function () {
             app.initialize();
 
-            $('#get-data-from-selection').click(getDataFromSelection);
+            $('#connectOU').click(connectToOU);
             $('#insert-standard-header').click(insertStandardHeader);
+
+            $("#moduleSelector").change(selectedCourseChanged);
+            $("#tmaSelector").change(selectedTMAChanged);
+
         });
     };
+
+    function connectToOU() {
+
+
+            populateCourseDetails(courses);
+    }
+
+
+    function populateCourseDetails(courseDetails) {
+
+        $("#moduleSelector").empty();
+        $("#tmaSelector").empty();
+
+        $(courseDetails).each(function () {
+            var item = $("<option />", {
+                val: JSON.stringify(this),
+                text: this.Title
+            });
+            item.appendTo($("#moduleSelector"));
+        });
+
+        selectCourse(courseDetails[0]);
+
+    }
+
+    function selectedCourseChanged() {
+        var selectedCourse = $("#moduleSelector").val();
+        selectCourse(selectedCourse);
+    }
+
+    function selectCourse(selectedCourse){
+        $("#tmaSelector").empty();
+
+        $(selectedCourse.TMAS).each(function () {
+            var item = $("<option />", {
+                val: JSON.stringify(this),
+                text: this.Title
+            });
+            item.appendTo($("#tmaSelector"));
+        });
+
+        selectTMA(selectedCourse.TMAS[0]);
+    }
+
+    function selectedTMAChanged() {
+        var selectedTMA = JSON.parse($("#tmaSelector").val());
+
+        selectTMA(selectedTMA);
+    }
+
+    function selectTMA(selectedTMA) {
+        var url = selectedTMA.Url;
+        console.log(url);
+        $("#etmaRequirements").attr("href",url);
+
+
+    }
+
 
     // Reads data from current document selection and displays a notification
     function getDataFromSelection() {
@@ -65,6 +130,9 @@
                 // Note that the header is a body object.
                 var myHeader = mySections.items[0].getHeader("primary");
 
+                // Clear out the previous header
+                myHeader.clear();
+
                 // Queue a command to insert text at the end of the header.
                 myHeader.insertText(getHeaderText(), Word.InsertLocation.end);
 
@@ -85,34 +153,10 @@
             }
         });
 
-
-
-        //var context = Office.context;
-        //var document = context.document;
-        //var sections = document.sections;
-        //context.load(sections, 'body/style');
-        //context.sync().then(function () {
-        //    var header = sections.items[0].getHeader("primary");
-        //    header.insertText(getHeaderText(), Word.InsertLocation.end);
-        //    header.insertContentControl();
-        //    contex.sync();
-
-        //});
-
-        //displayAllBindings();
-        //if (Office.context.document.setSelectedDataAsync) {
-        //    //Office.context.document.goToByIdAsync
-            
-        //    Office.context.document.setSelectedDataAsync(getHeaderText(), function (result) {
-        //        //Upon return, if the call was unable to insert text, let the user know.
-        //        if (result.status === Office.AsyncResultStatus.Failed) {
-        //            app.showNotification("There's a problem!", "The sample text was unable to be inserted.");
-        //        }
-        //    });
-        //} else {
-        //    app.showNotification("There's a problem!", "This product does not support inserting content.");
-        //}
     }
+
+
+
 
     function displayAllBindings() {
         write("getting bindings");
@@ -131,6 +175,6 @@
     }
 
     function getHeaderText() {
-        return "Ian Brown (PI E2762956) L192 ETMA01";
+         return userDetails.Name + " (PI " + userDetails.PI + ")   "+ currentCourseCode +" - " + currentTMA;
     }
 })();

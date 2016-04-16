@@ -4,3 +4,29 @@
     width: 100px;
     display:inline;
 }
+
+.tmaSelector150{
+    width:150px;
+}
+.tmaSelector{
+    width:100px;
+}
+
+.errorMessage{
+    color:red;
+}
+
+.hiddenPanel{
+    display:none;
+}
+
+.hidden{
+    display:none;
+}
+.shownPanel{
+    display:block;
+}
+
+.imgRight{
+    float:right;
+}

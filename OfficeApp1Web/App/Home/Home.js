@@ -51,12 +51,86 @@
     };
 
     function connectToOU() {
+        var userID = $('#studentId').val();
+        var password = $('#password').val();
+        if (userID == '' || password == '') {
+            write('please provide your username and password.');
+        }
+        else {
+            var result = getUserDetails(userID, password);
+        }
+    }
+
+    function hideSpinner() {
+        hide($('#spinner'));
+    }
+
+    function showSpinner() {
+        show($('#spinner'));
+    }
+
+    function hide(divtoHide) {
+        divtoHide.removeClass('shownPanel').addClass('hiddenPanel');
+    }
+
+    function show(divToShow) {
+        divToShow.removeClass('hiddenPanel').addClass('shownPanel');
+
+    }
+
+    function getUserDetails(username, password) {
+        hide($('#credentials'));
+        hide($('#profile'));
+        showSpinner();
+
+        $.ajax({
+            url: serverUrl,
+            type: 'POST',
+            contentType: 'application/json;charset=utf-8'
+
+        })
+        .done(function (data) {
+            displayUserDetails(data);
+        })
+        .fail(function (jqXHR, textStatus) {
+            show($('#credentials'));
+            write(jqXHR.statusText);
+        })
+        .always(function () {
+            hide($('#spinner'));
+        });
 
 
+        //var details = {
+        //    PI: "E2762956",
+        //    Name: "Ian Brown",
+        //};
+        //displayUserDetails(JSON.stringify(details));
+    }
+
+    function displayUserDetails(details) {
+        var result = JSON.parse(details);
+
+        show($('#profile'));
+        show($('#mainPanels'));
+        write('');
         populateCourseDetails(courses);
         userDetails.PI = $('#studentId').val();
-        $('#studId').val(userDetails.PI);
+        $('#studId').text('Student ID: ' + userDetails.PI);
+        $('#studName').text('Name: ' + userDetails.Name);
+
+        setTutorContactEmailLink(courses[0].TutorContactEmail, userDetails.Name);
+
+
     }
+
+    function setTutorContactEmailLink(tutorEmailAddress, userName) {
+        var link = "mailto:" + tutorEmailAddress + ";subject=Contact from OU Student " + userName;
+        console.log(link);
+
+        $("#mailToLink").attr("href", link);
+    }
+
 
     function contactTutorClicked() {
         var data = $("#moduleSelector").val();
@@ -64,8 +138,11 @@
         var tutorEmailAddress = currentCourse.TutorContactEmail;
         var link = "mailto:" + tutorEmailAddress + ";subject=Contact from OU Student " + userDetails.Name;
         console.log(link);
-        window.open(link);
+        
+        $("#mailToLink").attr("href", link);
+        $("#mailToLink").trigger('click');
 
+        window.open(link);
     }
 
     function populateCourseDetails(courseDetails) {
@@ -191,7 +268,7 @@
 
     // Function that writes to a div with id='message' on the page.
     function write(message) {
-        document.getElementById('message').innerText += message;
+        document.getElementById('message').innerText = message;
     }
 
     function getHeaderText() {

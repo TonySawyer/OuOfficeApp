@@ -27,6 +27,12 @@
     var currentCourseCode = "";
     var currentTMA = "";
 
+    var serverUrl = "http://innovdata.azurewebsites.net/api/etmadata/User";
+
+    //$(function () {
+    //    $("#content-main").accordion();
+    //});
+
     // The initialize function must be run each time a new page is loaded
     Office.initialize = function (reason) {
         $(document).ready(function () {
@@ -38,15 +44,29 @@
             $("#moduleSelector").change(selectedCourseChanged);
             $("#tmaSelector").change(selectedTMAChanged);
 
+            $("#contactTutor").click(contactTutorClicked);
+            //$("#content-main").accordion();
+
         });
     };
 
     function connectToOU() {
 
 
-            populateCourseDetails(courses);
+        populateCourseDetails(courses);
+        userDetails.PI = $('#studentId').val();
+        $('#studId').val(userDetails.PI);
     }
 
+    function contactTutorClicked() {
+        var data = $("#moduleSelector").val();
+        var currentCourse = JSON.parse(data);
+        var tutorEmailAddress = currentCourse.TutorContactEmail;
+        var link = "mailto:" + tutorEmailAddress + ";subject=Contact from OU Student " + userDetails.Name;
+        console.log(link);
+        window.open(link);
+
+    }
 
     function populateCourseDetails(courseDetails) {
 

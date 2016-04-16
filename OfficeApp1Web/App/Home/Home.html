@@ -30,17 +30,23 @@
     </div>
     <div id="content-main">
         <div class="padding">
-            <p><strong>OU Coursework tools.</strong></p>
-            <button id="connectOU">Connect to the OU</button>
+            <H3>OU Coursework tools.</H3>
+            <div>
+                <p style="margin-left: 50px;">
+                    <label class="labelWidth100">Student Id: </label><input id="studentId" type="text" /><br />
+                    <label class="labelWidth100">Password: </label><input id="password" type="password" /><br />
+                </p>
+                <button id="connectOU">Connect to the OU</button>
             <hr />
             <p> <strong>Student Profile:</strong></p>
             <p style="margin-left: 50px;">
-                Student Id: <label id="studId">E265999</label><br />
-                Name: <label id="studName">Aaaa Bbbbb</label><br />
+                Student Id: <div id="studId">xxxxx</div><br />
+                Name: <div id="studName"><p></p></div><br />
             </p>
-
+            </div>
             <hr />
-            <p><strong>Coursework Selector:</strong></p>
+            <H3>Coursework Selector:</H3>
+            <div>
             <select id="moduleSelector"><option value="l192">L192 - Beginners French</option></select>
             <select id="tmaSelector"><option value="tma01">TMA 01</option>
                 <option value="tma03">TMA 02</option>
@@ -48,18 +54,21 @@
                 <option value="tma04">TMA 04</option>
             </select>
             <p style ="margin-top: 5px;"><a id="etmaRequirements" target="_blank" href="calculated">View eTMA Requirements...</a></p>
+            </div> 
             <hr />
-            <p ><strong>Document Tools:</strong></p>
+            <H3>Document Tools:</H3>
+            <div>
             <button id="insert-standard-header">Insert standard headers</button><br />
             <div id="message"><p></p></div>
             <hr />
-            <p><strong>eTMA Tools:</strong></p>
-            <button id="get-data-from-selection">Contact your tutor</button><br />
-            <button id="get-data-from-selection">Submit eTMA</button><br />
+            <p><H3>eTMA Tools:</H3>
+            <button id="contactTutor">Contact your tutor</button><br />
+            <button id="submitETMA">Submit eTMA</button><br />
 
             <p style="margin-top: 50px;">
                 <a target="_blank" href="http://open.ac.uk">&copy; The Open University, 2016</a>
             </p>
+            </div>
         </div>
     </div>
 </body>

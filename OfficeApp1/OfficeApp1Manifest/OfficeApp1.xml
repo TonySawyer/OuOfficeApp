@@ -7,6 +7,10 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="The Open University" />
   <Description DefaultValue="OfficeApp1"/>
+  <AppDomains>
+    <AppDomain>http://innovdata.azurewebsites.net</AppDomain>
+    <AppDomain>mailto:</AppDomain>
+  </AppDomains>
   <Hosts>
     <Host Name="Document" />
   </Hosts>

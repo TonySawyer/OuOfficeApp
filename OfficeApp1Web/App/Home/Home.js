@@ -82,7 +82,7 @@
         hide($('#credentials'));
         hide($('#profile'));
         showSpinner();
-
+        $.support.cors = true;
         $.ajax({
             url: serverUrl,
             type: 'POST',

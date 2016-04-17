@@ -58,6 +58,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Scripts\jquery-2.2.3.intellisense.js" />
+    <Content Include="Scripts\jquery-2.2.3.js" />
+    <Content Include="Scripts\jquery-2.2.3.min.js" />
+    <Content Include="Scripts\jquery-2.2.3.min.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -72,18 +76,14 @@
     <Content Include="App\Home\Home.html" />
     <Content Include="App\Home\Home.js" />
     <Content Include="Content\Office.css" />
+    <Content Include="Content\OfficeThemes.css" />
     <Content Include="Images\Close.png" />
     <Content Include="Images\ouLogo.png" />
     <Content Include="Images\ouLogo.small.png" />
     <Content Include="Images\sprite-x3.png" />
     <Content Include="packages.config" />
-    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
-    <Content Include="Scripts\jquery-1.9.1.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.js" />
-    <Content Include="Scripts\jquery-1.9.1.min.map" />
     <None Include="Scripts\_references.js" />
     <None Include="Scripts\Office\1\office-vsdoc.js" />
-    <Content Include="Content\OfficeThemes.css" />
     <Content Include="Scripts\Office\1\access-web-16.00.debug.js" />
     <Content Include="Scripts\Office\1\access-web-16.00.js" />
     <Content Include="Scripts\Office\1\ar-sa\office_strings.debug.js" />
@@ -94,10 +94,6 @@
     <Content Include="Scripts\Office\1\bg-bg\office_strings.js" />
     <Content Include="Scripts\Office\1\bg-bg\outlook_strings.debug.js" />
     <Content Include="Scripts\Office\1\bg-bg\outlook_strings.js" />
-    <Content Include="Scripts\Office\1\ca-es\office_strings.debug.js" />
-    <Content Include="Scripts\Office\1\ca-es\office_strings.js" />
-    <Content Include="Scripts\Office\1\ca-es\outlook_strings.debug.js" />
-    <Content Include="Scripts\Office\1\ca-es\outlook_strings.js" />
     <Content Include="Scripts\Office\1\cs-cz\office_strings.debug.js" />
     <Content Include="Scripts\Office\1\cs-cz\office_strings.js" />
     <Content Include="Scripts\Office\1\cs-cz\outlook_strings.debug.js" />
@@ -126,10 +122,6 @@
     <Content Include="Scripts\Office\1\et-ee\office_strings.js" />
     <Content Include="Scripts\Office\1\et-ee\outlook_strings.debug.js" />
     <Content Include="Scripts\Office\1\et-ee\outlook_strings.js" />
-    <Content Include="Scripts\Office\1\eu-es\office_strings.debug.js" />
-    <Content Include="Scripts\Office\1\eu-es\office_strings.js" />
-    <Content Include="Scripts\Office\1\eu-es\outlook_strings.debug.js" />
-    <Content Include="Scripts\Office\1\eu-es\outlook_strings.js" />
     <Content Include="Scripts\Office\1\excel-15.01.debug.js" />
     <Content Include="Scripts\Office\1\excel-15.01.js" />
     <Content Include="Scripts\Office\1\excel-15.debug.js" />
@@ -154,10 +146,6 @@
     <Content Include="Scripts\Office\1\fr-fr\office_strings.js" />
     <Content Include="Scripts\Office\1\fr-fr\outlook_strings.debug.js" />
     <Content Include="Scripts\Office\1\fr-fr\outlook_strings.js" />
-    <Content Include="Scripts\Office\1\gl-es\office_strings.debug.js" />
-    <Content Include="Scripts\Office\1\gl-es\office_strings.js" />
-    <Content Include="Scripts\Office\1\gl-es\outlook_strings.debug.js" />
-    <Content Include="Scripts\Office\1\gl-es\outlook_strings.js" />
     <Content Include="Scripts\Office\1\he-il\office_strings.debug.js" />
     <Content Include="Scripts\Office\1\he-il\office_strings.js" />
     <Content Include="Scripts\Office\1\he-il\outlook_strings.debug.js" />
@@ -279,22 +267,10 @@
     <Content Include="Scripts\Office\1\sl-si\office_strings.js" />
     <Content Include="Scripts\Office\1\sl-si\outlook_strings.debug.js" />
     <Content Include="Scripts\Office\1\sl-si\outlook_strings.js" />
-    <Content Include="Scripts\Office\1\sr-cyrl-cs\office_strings.debug.js" />
-    <Content Include="Scripts\Office\1\sr-cyrl-cs\office_strings.js" />
-    <Content Include="Scripts\Office\1\sr-cyrl-cs\outlook_strings.debug.js" />
-    <Content Include="Scripts\Office\1\sr-cyrl-cs\outlook_strings.js" />
-    <Content Include="Scripts\Office\1\sr-cyrl-rs\office_strings.debug.js" />
-    <Content Include="Scripts\Office\1\sr-cyrl-rs\office_strings.js" />
-    <Content Include="Scripts\Office\1\sr-cyrl-rs\outlook_strings.debug.js" />
-    <Content Include="Scripts\Office\1\sr-cyrl-rs\outlook_strings.js" />
     <Content Include="Scripts\Office\1\sr-latn-cs\office_strings.debug.js" />
     <Content Include="Scripts\Office\1\sr-latn-cs\office_strings.js" />
     <Content Include="Scripts\Office\1\sr-latn-cs\outlook_strings.debug.js" />
     <Content Include="Scripts\Office\1\sr-latn-cs\outlook_strings.js" />
-    <Content Include="Scripts\Office\1\sr-latn-rs\office_strings.debug.js" />
-    <Content Include="Scripts\Office\1\sr-latn-rs\office_strings.js" />
-    <Content Include="Scripts\Office\1\sr-latn-rs\outlook_strings.debug.js" />
-    <Content Include="Scripts\Office\1\sr-latn-rs\outlook_strings.js" />
     <Content Include="Scripts\Office\1\sv-se\office_strings.debug.js" />
     <Content Include="Scripts\Office\1\sv-se\office_strings.js" />
     <Content Include="Scripts\Office\1\sv-se\outlook_strings.debug.js" />

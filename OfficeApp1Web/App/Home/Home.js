@@ -11,15 +11,20 @@
         {
             Title: "L192 Beginners French",
             Code: "L192",
+            TutorDetails : {
+                Name : "Mrs Tutor",
+                Email: "https://msds.open.ac.uk/students/contacttutor.aspx?id=01700207&c=L192",
+                Voip:"mrstutor@open.ac.uk"
+            },
             TutorName: "Mrs Tutor",
-            TutorContactEmail: "mrstutor@open.ac.uk",
+            TutorContactEmail: "https://msds.open.ac.uk/students/contacttutor.aspx?id=01700207&c=L192",
             TutorContactVoip: "mrstutor@open.ac.uk",
-            TMAS: [
-                {Title: "TMA01", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764144"},
-                {Title: "TMA02", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764174"},
-                {Title: "TMA03", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764189"},
-                {Title: "TMA04", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764367"},
-                {Title: "EMA", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764196"}
+            Tmas: [
+                { Title: "TMA01", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764144", WordCountRequired:"250"},
+                { Title: "TMA02", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764174", WordCountRequired: "250" },
+                { Title: "TMA03", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764189", WordCountRequired: "250" },
+                { Title: "TMA04", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764367", WordCountRequired: "250" },
+                { Title: "EMA", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764196", WordCountRequired: "500" }
             ]
         }
     ];
@@ -28,10 +33,8 @@
     var currentTMA = "";
 
     var serverUrl = "http://innovdata.azurewebsites.net/api/etmadata/User";
+    var coursesServerUrl = "http://innovdata.azurewebsites.net/api/etmadata/Courses";
 
-    //$(function () {
-    //    $("#content-main").accordion();
-    //});
 
     // The initialize function must be run each time a new page is loaded
     Office.initialize = function (reason) {
@@ -44,7 +47,7 @@
             $("#moduleSelector").change(selectedCourseChanged);
             $("#tmaSelector").change(selectedTMAChanged);
 
-            $("#contactTutor").click(contactTutorClicked);
+            //$("#contactTutor").click(contactTutorClicked);
             //$("#content-main").accordion();
 
         });
@@ -85,7 +88,7 @@
         $.support.cors = true;
         $.ajax({
             url: serverUrl,
-            type: 'POST',
+            type: 'GET',
             contentType: 'application/json;charset=utf-8'
 
         })
@@ -99,36 +102,50 @@
         .always(function () {
             hide($('#spinner'));
         });
+    }
 
+    function getCoursesForUser(userId) {
+        hide($('#credentials'));
+        hide($('#profile'));
+        showSpinner();
+        $.support.cors = true;
+        $.ajax({
+            url: coursesServerUrl,
+            type: 'GET',
+            contentType: 'application/json;charset=utf-8'
 
-        //var details = {
-        //    PI: "E2762956",
-        //    Name: "Ian Brown",
-        //};
-        //displayUserDetails(JSON.stringify(details));
+        })
+        .done(function (data) {
+            populateCourseDetails(data);
+        })
+        .fail(function (jqXHR, textStatus) {
+            show($('#credentials'));
+            write(jqXHR.statusText);
+        })
+        .always(function () {
+            hide($('#spinner'));
+        });
     }
 
     function displayUserDetails(details) {
-        var result = JSON.parse(details);
-
         show($('#profile'));
         show($('#mainPanels'));
         write('');
-        populateCourseDetails(courses);
-        userDetails.PI = $('#studentId').val();
-        $('#studId').text('Student ID: ' + userDetails.PI);
-        $('#studName').text('Name: ' + userDetails.Name);
+        $('#studId').text('Student ID: ' + details.Pi);
+        $('#studName').text('Name: ' + details.Name);
 
-        setTutorContactEmailLink(courses[0].TutorContactEmail, userDetails.Name);
-
-
+        setTutorContactEmailLink(courses[0].TutorDetails);
     }
 
-    function setTutorContactEmailLink(tutorEmailAddress, userName) {
-        var link = "mailto:" + tutorEmailAddress + ";subject=Contact from OU Student " + userName;
-        console.log(link);
+    
 
-        $("#mailToLink").attr("href", link);
+
+    function setTutorContactEmailLink(tutorDetails) {
+
+        var link = tutorDetails.EmailAddress;
+        console.log(link);
+        $('#contactTutor').text('Contact your tutor - ' + tutorDetails.Name);
+        $("#contactTutor").attr("href", link);
     }
 
 
@@ -170,7 +187,7 @@
     function selectCourse(selectedCourse){
         $("#tmaSelector").empty();
 
-        $(selectedCourse.TMAS).each(function () {
+        $(selectedCourse.Tmas).each(function () {
             var item = $("<option />", {
                 val: JSON.stringify(this),
                 text: this.Title
@@ -178,7 +195,7 @@
             item.appendTo($("#tmaSelector"));
         });
 
-        selectTMA(selectedCourse.TMAS[0]);
+        selectTMA(selectedCourse.Tmas[0]);
     }
 
     function selectedTMAChanged() {

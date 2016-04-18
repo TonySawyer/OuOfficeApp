@@ -31,48 +31,63 @@
     <div id="content-main">
         <div class="padding">
             <div id="message" class="errorMessage"><p></p></div>
-            <H3>OU Coursework tools.</H3>
-            <hr />
             <div id="spinner" class="hiddenPanel">
-                <!--<img src="https://i2.wp.com/www.dhp11.com/foswiki/pub/Internal/2012-06-12/spinner.gif" />-->
                 <img src="https://www.gobus-eg.com/images/loader.gif" />
-            </div>
-            <div id="credentials" class="shownPanel">
-                <p style="margin-left: 50px;">
-                    <label class="labelWidth100">Student Id: </label><input id="studentId" type="text" /><br />
-                    <label class="labelWidth100">Password: </label><input id="password" type="password" /><br />
-                </p>
-                <button id="connectOU">Connect to the OU</button>
-            </div>
-            <div id="profile" class="hiddenPanel">
-            <p> <strong>Student Profile:</strong></p>
-            <p style="margin-left: 50px;">
-                <div id="studId">Student Id: </div><br />
-                <div id="studName">Name: </div><br />
-            </p>
-           </div>
-            <div id="mainPanels" class="hiddenPanel">
-            <hr />
-            <H3>Coursework Selector:</H3>
-            <div>
-                <select id="moduleSelector" class="tmaSelector150"></select>
-                <select id="tmaSelector" class="tmaSelector"></select>
-                <p style ="margin-top: 5px;"><a id="etmaRequirements" target="_blank" href="calculated">View eTMA Requirements...</a></p>
-            </div> 
-            <hr />
-            <H3>Document Tools:</H3>
-                <div>
-                    <button id="insert-standard-header">Insert standard headers</button><br />
+            </div>          
+             <div id="tools">
+               <h3>OU Coursework tools.</h3>
+               <hr />
+
+                <div id="credentials" class="shownPanel">
+                    <p style="margin-left: 50px;">
+                        <label class="labelWidth100">Student Id: </label><input id="studentId" type="text" /><br />
+                        <label class="labelWidth100">Password: </label><input id="password" type="password" /><br />
+                    </p>
+                    <button id="connectOU">Connect to the OU</button>
+                </div>
+                <div id="profile" class="hiddenPanel">
+                    <p> <strong>Student Profile:</strong></p>
+                    <p style="margin-left: 50px;">
+                        <div id="studId">Student Id: </div><br />
+                        <div id="studName">Name: </div><br />
+                    </p>
+                </div>
+                <div id="mainPanels" class="hiddenPanel">
                     <hr />
-                    <p>
-                        <h3>eTMA Tools:</h3>
+                    <h3>Coursework Selector:</h3>
+                    <div>
+                        <select id="moduleSelector" class="tmaSelector150"></select>
+                        <select id="tmaSelector" class="tmaSelector"></select>
+                        <p style="margin-top: 5px;"><a id="etmaRequirements" target="_blank" href="calculated">View eTMA Requirements...</a></p>
+                    </div>
+                    <hr />
+                    <h3>Document Tools:</h3>
+                    <div>
+                        <button id="insert-standard-header">Insert standard headers</button><br />
+                        <hr />
+                        <p>
+                            <h3>eTMA Tools:</h3>
                         <p><a id="contactTutor" target="_blank" href="calculated">Contact your tutor</a></p>
                         <!--<button id="contactTutor" >Contact your tutor</button><a id="mailToLink" href="http://open.ac.uk" target="_blank" class="hidden">xxxxx</a><br />-->
                         <button id="submitETMA">Submit eTMA</button><br />
+                    </div>
                 </div>
             </div>
             <div id="submitETMAPanel" class="hiddenPanel">
 
+                <h3>Please Read through the following messages</h3>
+                <hr />
+                <p>These messages contain important information about the submission you are about to make. Please read them carefully and tick each box to confirm that you have read and understood the message. You will not be able to continue with the submission until you have done this.</p>
+                <input type="checkbox" id="chk1" /> I have read and acknowledge the above statement.
+
+                <p>It is your responsibility to ensure that your work is in the correct format, that you have submitted the correct file, and that you have submitted all of the work you want assessed. We strongly recommend that once you have completed your submission you download the file that you have submitted by clicking on the 'View Submission' button and double-check this. If the University is unable to open your file, it may not be marked. See your Assessment Handbook for further information about file formats and zipping files together.</p>
+                <input type="checkbox" id="chkCorrectFormat"/>I have read and acknowledge the above statement.
+
+                <p>The University has to ensure as far as possible that the work submitted by students is their own and that credit is not given for unreferenced material from other sources. The University statement 'What constitutes plagiarism or cheating' appears in the Plagiarism Policy Document and in your Assessment Handbook and you are expected to have familiarised yourself with it. Please be aware that the University may subject your work to checks (including computerised checks) for plagiarism and in some instances may need to seek further information from you. Any cases where a basis for concern about the originality of the work is identified will be considered under the University's policy on academic conduct.</p>
+                <input type="checkbox" id="chkNoCopying"/>I have read and acknowledge the above statement.
+                <hr />
+                <button id="okSubmit">Submit</button>
+                <button id="cancelSubmit">Cancel</button>
 
             </div>
             <p style="margin-top: 50px;">

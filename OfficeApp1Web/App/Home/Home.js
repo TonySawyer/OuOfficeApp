@@ -16,9 +16,6 @@
                 Email: "https://msds.open.ac.uk/students/contacttutor.aspx?id=01700207&c=L192",
                 Voip:"mrstutor@open.ac.uk"
             },
-            TutorName: "Mrs Tutor",
-            TutorContactEmail: "https://msds.open.ac.uk/students/contacttutor.aspx?id=01700207&c=L192",
-            TutorContactVoip: "mrstutor@open.ac.uk",
             Tmas: [
                 { Title: "TMA01", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764144", WordCountRequired:"250"},
                 { Title: "TMA02", Url: "https://learn2.open.ac.uk/mod/oucontent/view.php?id=764174", WordCountRequired: "250" },
@@ -43,12 +40,16 @@
 
             $('#connectOU').click(connectToOU);
             $('#insert-standard-header').click(insertStandardHeader);
+            $('#submitETMA').click(submitETMA);
+            $('#okSubmit').click(sendSubmission);
+            $('#cancelSubmit').click(cancelSubmission);
 
             $("#moduleSelector").change(selectedCourseChanged);
             $("#tmaSelector").change(selectedTMAChanged);
 
-            //$("#contactTutor").click(contactTutorClicked);
-            //$("#content-main").accordion();
+            $('#chk1').change(setSubmitButtonEnabled);
+            $('#chkCorrectFormat').change(setSubmitButtonEnabled);
+            $('#chkNoCopying').change(setSubmitButtonEnabled);
 
         });
     };
@@ -105,8 +106,6 @@
     }
 
     function getCoursesForUser(userId) {
-        hide($('#credentials'));
-        hide($('#profile'));
         showSpinner();
         $.support.cors = true;
         $.ajax({
@@ -119,7 +118,6 @@
             populateCourseDetails(data);
         })
         .fail(function (jqXHR, textStatus) {
-            show($('#credentials'));
             write(jqXHR.statusText);
         })
         .always(function () {
@@ -134,11 +132,8 @@
         $('#studId').text('Student ID: ' + details.Pi);
         $('#studName').text('Name: ' + details.Name);
 
-        setTutorContactEmailLink(courses[0].TutorDetails);
+        getCoursesForUser(details.Pi);
     }
-
-    
-
 
     function setTutorContactEmailLink(tutorDetails) {
 
@@ -290,5 +285,28 @@
 
     function getHeaderText() {
          return userDetails.Name + " (PI " + userDetails.PI + ")   "+ currentCourseCode +" - " + currentTMA;
+    }
+
+    function submitETMA() {
+
+        hide($('#tools'));
+        show($('#submitETMAPanel'));
+        setSubmitButtonEnabled();
+    }
+
+    function setSubmitButtonEnabled() {
+        $('#okSubmit').attr("disabled",! $('#chk1').is(':checked') && $('#chkCorrectFormat').is(':checked') && $('#chkNoCopying').is(':checked'));
+    }
+
+    function sendSubmission() {
+
+    }
+
+
+
+    function cancelSubmission() {
+        show($('#tools'));
+        hide($('#submitETMAPanel'));
+
     }
 })();

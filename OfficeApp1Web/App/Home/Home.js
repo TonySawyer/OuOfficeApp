@@ -31,7 +31,7 @@
 
     var serverUrl = "http://innovdata.azurewebsites.net/api/etmadata/User";
     var coursesServerUrl = "http://innovdata.azurewebsites.net/api/etmadata/Courses";
-
+    var submitUrl = "http://innovdata.azurewebsites.net/api/etmadata/Submit";
 
     // The initialize function must be run each time a new page is loaded
     Office.initialize = function (reason) {
@@ -58,7 +58,7 @@
         var userID = $('#studentId').val();
         var password = $('#password').val();
         if (userID == '' || password == '') {
-            write('please provide your username and password.');
+            writeError('please provide your username and password.');
         }
         else {
             var result = getUserDetails(userID, password);
@@ -96,12 +96,12 @@
         .done(function (data) {
             displayUserDetails(data);
         })
-        .fail(function (jqXHR, textStatus) {
+        .fail(function (jqXHR, textStatus, xx) {
             show($('#credentials'));
-            write(jqXHR.statusText);
+            writeError(jqXHR.statusText);
         })
         .always(function () {
-            hide($('#spinner'));
+            hideSpinner();
         });
     }
 
@@ -118,17 +118,17 @@
             populateCourseDetails(data);
         })
         .fail(function (jqXHR, textStatus) {
-            write(jqXHR.statusText);
+            writeError(jqXHR.statusText);
         })
         .always(function () {
-            hide($('#spinner'));
+            hideSpinner();
         });
     }
 
     function displayUserDetails(details) {
         show($('#profile'));
         show($('#mainPanels'));
-        write('');
+        writeError('');
         $('#studId').text('Student ID: ' + details.Pi);
         $('#studName').text('Name: ' + details.Name);
 
@@ -268,18 +268,25 @@
 
 
     function displayAllBindings() {
-        write("getting bindings");
+        writeError("getting bindings");
         Office.context.document.bindings.getAllAsync(function (asyncResult) {
             var bindingString = '';
             for (var i in asyncResult.value) {
                 bindingString += asyncResult.value[i].id + '\n';
             }
-            write('Existing bindings: ' + bindingString);
+            writeError('Existing bindings: ' + bindingString);
         });
     }
 
     // Function that writes to a div with id='message' on the page.
-    function write(message) {
+    function writeError(message) {
+        $("#message").removeClass('infoMessage').addClass('errorMessage');
+        document.getElementById('message').innerText = message;
+    }
+
+    function writeMessage(message) {
+        $("#message").removeClass('errorMessage').addClass('infoMessage');
+
         document.getElementById('message').innerText = message;
     }
 
@@ -295,14 +302,30 @@
     }
 
     function setSubmitButtonEnabled() {
-        $('#okSubmit').attr("disabled",! $('#chk1').is(':checked') && $('#chkCorrectFormat').is(':checked') && $('#chkNoCopying').is(':checked'));
+        $('#okSubmit').prop("disabled",! $('#chk1').is(':checked') && $('#chkCorrectFormat').is(':checked') && $('#chkNoCopying').is(':checked'));
     }
 
     function sendSubmission() {
+        showSpinner();
+        $.support.cors = true;
+        $.ajax({
+            url: submitUrl,
+            type: 'POST',
+            contentType: 'application/json;charset=utf-8'
 
+        })
+        .done(function (data) {
+            var receiptId = data.SubmissionId.substring(0,8);
+            writeMessage("receipt id:" + receiptId);
+
+        })
+        .fail(function (jqXHR, textStatus) {
+            writeError(jqXHR.statusText);
+        })
+        .always(function () {
+            hideSpinner();
+        });
     }
-
-
 
     function cancelSubmission() {
         show($('#tools'));

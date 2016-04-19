@@ -137,7 +137,7 @@
 
     function setTutorContactEmailLink(tutorDetails) {
 
-        var link = tutorDetails.EmailAddress;
+        var link = tutorDetails.Email;
         console.log(link);
         $('#contactTutor').text('Contact your tutor - ' + tutorDetails.Name);
         $("#contactTutor").attr("href", link);
@@ -189,8 +189,9 @@
             });
             item.appendTo($("#tmaSelector"));
         });
-
+        setTutorContactEmailLink(selectedCourse.TutorDetails);
         selectTMA(selectedCourse.Tmas[0]);
+        currentCourseCode = selectedCourse.Code;
     }
 
     function selectedTMAChanged() {
@@ -204,7 +205,7 @@
         console.log(url);
         $("#etmaRequirements").attr("href",url);
 
-
+        currentTMA = selectedTMA.Title;
     }
 
 
@@ -264,9 +265,6 @@
 
     }
 
-
-
-
     function displayAllBindings() {
         writeError("getting bindings");
         Office.context.document.bindings.getAllAsync(function (asyncResult) {
@@ -295,14 +293,13 @@
     }
 
     function submitETMA() {
-
-        hide($('#tools'));
-        show($('#submitETMAPanel'));
+        showSubmitPanel();
         setSubmitButtonEnabled();
     }
 
     function setSubmitButtonEnabled() {
-        $('#okSubmit').prop("disabled",! $('#chk1').is(':checked') && $('#chkCorrectFormat').is(':checked') && $('#chkNoCopying').is(':checked'));
+        var canSubmit = $('#chk1').is(':checked') && $('#chkCorrectFormat').is(':checked') && $('#chkNoCopying').is(':checked');
+        $('#okSubmit').prop("disabled", !canSubmit);
     }
 
     function sendSubmission() {
@@ -316,8 +313,8 @@
         })
         .done(function (data) {
             var receiptId = data.SubmissionId.substring(0,8);
-            writeMessage("receipt id:" + receiptId);
-
+            app.showNotification('TMA Submitted, receipt Id:', receiptId);
+            showMainPanel();
         })
         .fail(function (jqXHR, textStatus) {
             writeError(jqXHR.statusText);
@@ -328,6 +325,15 @@
     }
 
     function cancelSubmission() {
+        showMainPanel();
+    }
+
+    function showSubmitPanel() {
+        hide($('#tools'));
+        show($('#submitETMAPanel'));
+    }
+
+    function showMainPanel() {
         show($('#tools'));
         hide($('#submitETMAPanel'));
 

@@ -2,7 +2,7 @@
 
 .labelWidth100{
     width: 100px;
-    display:inline;
+    float:left;
 }
 
 .tmaSelector150{

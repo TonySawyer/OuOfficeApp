@@ -133,6 +133,7 @@
         $('#studName').text('Name: ' + details.Name);
 
         getCoursesForUser(details.Pi);
+        wordCount();
     }
 
     function setTutorContactEmailLink(tutorDetails) {
@@ -177,7 +178,7 @@
     function selectedCourseChanged() {
         var selectedCourse = $("#moduleSelector").val();
         selectCourse(selectedCourse);
-    }
+     }
 
     function selectCourse(selectedCourse){
         $("#tmaSelector").empty();
@@ -220,6 +221,29 @@
                 }
             }
         );
+    }
+
+
+    function wordCount() {
+        Word.run(function (context) {
+
+
+            // Create a proxy object for the document body.
+            // The body object hasn't been set with any property values.
+            var body = context.document.body;
+
+            // Queue a command to load the text property for the proxy document body object.
+            context.load(body, 'text');
+
+            // Synchronize the document state by executing the queued commands,
+            // and return a promise to indicate task completion.
+            return context.sync().then(function () {
+                console.log("Body contents: " + body.text);
+            });
+
+
+
+        });
     }
 
     function insertStandardHeader() {
@@ -303,6 +327,36 @@
     }
 
     function sendSubmission() {
+        // Run a batch operation against the Word object model.
+        Word.run(function (context) {
+
+            // Create a proxy object for the document.
+            var thisDocument = context.document;
+
+            // Queue a commmand to load the sections.
+            context.load(thisDocument, 'saved');
+
+            return context.sync().then(function () {
+
+                var saved = thisDocument.saved;
+
+                if (!saved) {
+                    app.showNotification("Warning", "Please save the document before submission.");
+                } else {
+                    sendSubmissionToOU();
+                }
+            });
+
+
+
+        });
+    }
+
+
+    function sendSubmissionToOU() {
+       
+
+
         showSpinner();
         $.support.cors = true;
         $.ajax({

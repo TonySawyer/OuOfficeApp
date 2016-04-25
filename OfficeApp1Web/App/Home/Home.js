@@ -70,6 +70,8 @@
                     if (retrievedCourseDetails != null){
                         displayUserDetails(retrievedUserDetails);
                         populateCourseDetails(retrievedCourseDetails);
+                        hide($('#credentials'));
+
                     }
                 }
             });
@@ -152,19 +154,19 @@
 
 
     function storeUserDetails(details) {
-        window.sessionStorage.setItem(storedUserDetails, details);
+        window.sessionStorage.setItem(storedUserDetails, JSON.stringify(details));
     }
 
     function storeCourseDetails(details) {
-        window.sessionStorage.setItem(storedCourseDetails, details);
+        window.sessionStorage.setItem(storedCourseDetails, JSON.stringify(details));
     }
 
     function retrieveUserDetails() {
-        return window.sessionStorage.getItem(storedUserDetails);
+        return JSON.parse(window.sessionStorage.getItem(storedUserDetails));
     }
 
     function retrieveCourseDetails() {
-        return window.sessionStorage.getItem(storedCourseDetails);
+        return JSON.parse(window.sessionStorage.getItem(storedCourseDetails));
     }
 
     function displayUserDetails(details) {

@@ -33,23 +33,46 @@
     var coursesServerUrl = "http://innovdata.azurewebsites.net/api/etmadata/Courses";
     var submitUrl = "http://innovdata.azurewebsites.net/api/etmadata/Submit";
 
+    var storedUserDetails = "userDetails";
+    var storedCourseDetails = "courseDetails";
+
+
     // The initialize function must be run each time a new page is loaded
     Office.initialize = function (reason) {
         $(document).ready(function () {
-            app.initialize();
+            $(document).ready(function () {
+                if (typeof (Storage) !== "undefined") {
+                    console.log('has storage');
+                }
+                else {
+                    console.log('no storage');
 
-            $('#connectOU').click(connectToOU);
-            $('#insert-standard-header').click(insertStandardHeader);
-            $('#submitETMA').click(submitETMA);
-            $('#okSubmit').click(sendSubmission);
-            $('#cancelSubmit').click(cancelSubmission);
+                }
 
-            $("#moduleSelector").change(selectedCourseChanged);
-            $("#tmaSelector").change(selectedTMAChanged);
 
-            $('#chk1').change(setSubmitButtonEnabled);
-            $('#chkCorrectFormat').change(setSubmitButtonEnabled);
-            $('#chkNoCopying').change(setSubmitButtonEnabled);
+                app.initialize();
+                $('#connectOU').click(connectToOU);
+                $('#insert-standard-header').click(insertStandardHeader);
+                $('#submitETMA').click(submitETMA);
+                $('#okSubmit').click(sendSubmission);
+                $('#cancelSubmit').click(cancelSubmission);
+
+                $("#moduleSelector").change(selectedCourseChanged);
+                $("#tmaSelector").change(selectedTMAChanged);
+
+                $('#chk1').change(setSubmitButtonEnabled);
+                $('#chkCorrectFormat').change(setSubmitButtonEnabled);
+                $('#chkNoCopying').change(setSubmitButtonEnabled);
+                var retrievedUserDetails = retrieveUserDetails();
+
+                if (retrievedUserDetails != null) {
+                    var retrievedCourseDetails = retrieveCourseDetails();
+                    if (retrievedCourseDetails != null){
+                        displayUserDetails(retrievedUserDetails);
+                        populateCourseDetails(retrievedCourseDetails);
+                    }
+                }
+            });
 
         });
     };
@@ -94,6 +117,7 @@
 
         })
         .done(function (data) {
+            storeUserDetails(data);
             displayUserDetails(data);
         })
         .fail(function (jqXHR, textStatus, xx) {
@@ -115,6 +139,7 @@
 
         })
         .done(function (data) {
+            storeCourseDetails(data);
             populateCourseDetails(data);
         })
         .fail(function (jqXHR, textStatus) {
@@ -125,7 +150,25 @@
         });
     }
 
+
+    function storeUserDetails(details) {
+        window.sessionStorage.setItem(storedUserDetails, details);
+    }
+
+    function storeCourseDetails(details) {
+        window.sessionStorage.setItem(storedCourseDetails, details);
+    }
+
+    function retrieveUserDetails() {
+        return window.sessionStorage.getItem(storedUserDetails);
+    }
+
+    function retrieveCourseDetails() {
+        return window.sessionStorage.getItem(storedCourseDetails);
+    }
+
     function displayUserDetails(details) {
+
         show($('#profile'));
         show($('#mainPanels'));
         writeError('');
@@ -159,7 +202,6 @@
     }
 
     function populateCourseDetails(courseDetails) {
-
         $("#moduleSelector").empty();
         $("#tmaSelector").empty();
 

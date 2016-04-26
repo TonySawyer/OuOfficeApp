@@ -35,6 +35,7 @@
 
     var storedUserDetails = "userDetails";
     var storedCourseDetails = "courseDetails";
+    var selectedTmaDetails = "selectedTma";
 
 
     // The initialize function must be run each time a new page is loaded
@@ -206,6 +207,7 @@
     function populateCourseDetails(courseDetails) {
         $("#moduleSelector").empty();
         $("#tmaSelector").empty();
+        console.log(courseDetails);
 
         $(courseDetails).each(function () {
             var item = $("<option />", {
@@ -235,7 +237,18 @@
             item.appendTo($("#tmaSelector"));
         });
         setTutorContactEmailLink(selectedCourse.TutorDetails);
-        selectTMA(selectedCourse.Tmas[0]);
+        var alreadySelectedTma = retrieveSelectedTma();
+
+        var indexToSelect = 0;
+
+        console.log(alreadySelectedTma);
+        if (alreadySelectedTma) {
+            indexToSelect = $("#tmaSelector :contains(" +alreadySelectedTma.Title + ")").index();
+            console.log("New index " +indexToSelect);
+            $('#tmaSelector')[0].selectedIndex = indexToSelect;
+        }
+
+        selectTMA(selectedCourse.Tmas[indexToSelect]);
         currentCourseCode = selectedCourse.Code;
     }
 
@@ -245,11 +258,20 @@
         selectTMA(selectedTMA);
     }
 
+    function storeSelectedTma(selectedTMA) {
+        window.sessionStorage.setItem(selectedTmaDetails, JSON.stringify(selectedTMA));
+    }
+
+    function retrieveSelectedTma() {
+        return JSON.parse(window.sessionStorage.getItem(selectedTmaDetails));
+    }
+
     function selectTMA(selectedTMA) {
         var url = selectedTMA.Url;
         console.log(url);
-        $("#etmaRequirements").attr("href",url);
-
+        $("#etmaRequirements").attr("href", url);
+        storeSelectedTma(selectedTMA);
+    
         currentTMA = selectedTMA.Title;
     }
 
